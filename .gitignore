@@ -1,0 +1,31 @@
+# Gradle / build outputs
+.gradle/
+build/
+out/
+bin/
+*.class
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.eclipse/
+.settings/
+.project
+.classpath
+
+# Loom / Fabric working dirs
+run/
+.fabric/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local override
+local.properties

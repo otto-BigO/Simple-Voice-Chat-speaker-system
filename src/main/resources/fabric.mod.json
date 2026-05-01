@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "remote_speaker",
+  "version": "${version}",
+  "name": "Remote Speaker",
+  "description": "Blocks that relay Simple Voice Chat audio across distances via named channels.",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "environment": "server",
+  "entrypoints": {
+    "main": ["com.example.remotespeaker.RemoteSpeakerMod"],
+    "voicechat": ["com.example.remotespeaker.RemoteSpeakerPlugin"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.0",
+    "fabric-api": "*",
+    "minecraft": "26.1.2",
+    "voicechat": ">=2.6.0"
+  }
+}
