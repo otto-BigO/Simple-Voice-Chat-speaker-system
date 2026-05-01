@@ -146,9 +146,7 @@ public class SpeakerSelectMenu extends AbstractContainerMenu {
 
         RecordingManager.INSTANCE.startRecording(
             sp.getUUID(),
-            sp.getName().getString(),
             entry.actionUUID(),
-            entry.targetPos(),
             sourceMicPos,
             entry.displayName()
         );

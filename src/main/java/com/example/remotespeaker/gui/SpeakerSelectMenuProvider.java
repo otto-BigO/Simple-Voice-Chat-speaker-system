@@ -26,7 +26,7 @@ import java.util.UUID;
 public class SpeakerSelectMenuProvider implements MenuProvider {
 
     /** One row in the speaker-select menu. */
-    public record MenuEntry(String displayName, int count, UUID actionUUID, BlockPos targetPos) {}
+    public record MenuEntry(String displayName, int count, UUID actionUUID) {}
 
     private final List<MenuEntry> entries;
     private final BlockPos sourceMicPos;
@@ -60,11 +60,10 @@ public class SpeakerSelectMenuProvider implements MenuProvider {
             String name = group.size() > 1
                 ? first.label + " ×" + group.size()
                 : first.label;
-            result.add(new MenuEntry(name, Math.min(group.size(), 64),
-                first.speakerUUID, first.pos));
+            result.add(new MenuEntry(name, Math.min(group.size(), 64), first.speakerUUID));
         }
         for (SpeakerManager.SpeakerEntry e : unlabeled) {
-            result.add(new MenuEntry(e.pos.toShortString(), 1, e.speakerUUID, e.pos));
+            result.add(new MenuEntry(e.pos.toShortString(), 1, e.speakerUUID));
         }
         return result;
     }

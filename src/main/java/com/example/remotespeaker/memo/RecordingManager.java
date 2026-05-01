@@ -39,12 +39,10 @@ public class RecordingManager {
      * Starts a new recording session for the player, targeting the given speaker.
      * Silently replaces any existing session (player switched target mid-recording).
      */
-    public void startRecording(UUID playerUUID, String playerName,
-                               UUID targetSpeakerUUID, BlockPos targetSpeakerPos,
+    public void startRecording(UUID playerUUID, UUID targetSpeakerUUID,
                                BlockPos sourceSpeakerPos, String targetDisplay) {
         RecordingSession session = new RecordingSession(
-            playerUUID, playerName, targetSpeakerUUID, targetSpeakerPos,
-            sourceSpeakerPos, targetDisplay);
+            playerUUID, targetSpeakerUUID, sourceSpeakerPos, targetDisplay);
         if (RemoteSpeakerPlugin.serverApi != null) {
             session.setDecoder(RemoteSpeakerPlugin.serverApi.createDecoder());
         }

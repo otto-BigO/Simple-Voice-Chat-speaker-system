@@ -7,8 +7,6 @@ import java.util.UUID;
  * Immutable record representing a completed voice memo ready for delivery.
  */
 public record VoiceMemo(
-    UUID senderUUID,
-    String senderName,
     UUID targetSpeakerUUID,
     List<short[]> pcmFrames
 ) {

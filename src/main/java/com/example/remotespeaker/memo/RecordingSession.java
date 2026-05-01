@@ -14,12 +14,10 @@ import java.util.UUID;
 public class RecordingSession {
 
     /** Maximum PCM frames to accumulate (~12 seconds at 50 packets/sec). */
-    public static final int MAX_FRAMES = 600;
+    private static final int MAX_FRAMES = 600;
 
     public final UUID playerUUID;
-    public final String playerName;
     public final UUID targetSpeakerUUID;
-    public final BlockPos targetSpeakerPos;
     /** Position of the mic head the player tapped to start this recording. */
     public final BlockPos sourceSpeakerPos;
     /** Display label of the chosen target (or group), used for the recording actionbar. */
@@ -29,13 +27,10 @@ public class RecordingSession {
     private boolean stopped = false;
     private OpusDecoder decoder;
 
-    public RecordingSession(UUID playerUUID, String playerName,
-                            UUID targetSpeakerUUID, BlockPos targetSpeakerPos,
+    public RecordingSession(UUID playerUUID, UUID targetSpeakerUUID,
                             BlockPos sourceSpeakerPos, String targetDisplay) {
         this.playerUUID = playerUUID;
-        this.playerName = playerName;
         this.targetSpeakerUUID = targetSpeakerUUID;
-        this.targetSpeakerPos = targetSpeakerPos.immutable();
         this.sourceSpeakerPos = sourceSpeakerPos.immutable();
         this.targetDisplay = targetDisplay == null ? "" : targetDisplay;
     }
@@ -69,6 +64,6 @@ public class RecordingSession {
 
     /** Builds an immutable VoiceMemo from the accumulated frames. */
     public VoiceMemo buildMemo() {
-        return new VoiceMemo(playerUUID, playerName, targetSpeakerUUID, List.copyOf(frames));
+        return new VoiceMemo(targetSpeakerUUID, List.copyOf(frames));
     }
 }
