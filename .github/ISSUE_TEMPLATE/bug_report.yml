@@ -1,0 +1,97 @@
+name: Bug report
+description: Something in the mod isn't working right
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report. The more specific you can be, the faster I can fix it.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, what actually happened?
+      placeholder: |
+        I right-clicked a mic head while looking at a wall and the menu didn't open. Expected the speaker-select GUI to appear.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Minimal sequence of actions that triggers the bug.
+      placeholder: |
+        1. /rspeaker give mic
+        2. Place head on a wall
+        3. Right-click it
+    validations:
+      required: true
+
+  - type: input
+    id: mc-version
+    attributes:
+      label: Minecraft version
+      placeholder: "26.1.2"
+    validations:
+      required: true
+
+  - type: input
+    id: mod-version
+    attributes:
+      label: Mod version
+      description: From the mod jar filename (e.g. remote-speaker-1.0.0.jar).
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: svc-version
+    attributes:
+      label: Simple Voice Chat version
+    validations:
+      required: true
+
+  - type: input
+    id: fabric-loader
+    attributes:
+      label: Fabric Loader version
+      placeholder: "0.19.2"
+
+  - type: dropdown
+    id: side
+    attributes:
+      label: Where did the bug appear?
+      options:
+        - Server-side (visible in server logs)
+        - Client-side (visible only on one client)
+        - Both
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log / crash report
+      description: |
+        Paste the relevant lines from `logs/latest.log`, or attach `crash-reports/*.txt` if the server crashed.
+        Use a code block (triple backticks) for readability.
+      render: shell
+
+  - type: textarea
+    id: other-mods
+    attributes:
+      label: Other mods loaded
+      description: Especially any voice-chat-related mods (Radio, vcinteraction, etc.). Paste the mod list from the server boot log if convenient.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I searched existing issues and didn't find a duplicate.
+          required: true
+        - label: I'm running the latest version of the mod from the Modrinth releases.
+          required: true
