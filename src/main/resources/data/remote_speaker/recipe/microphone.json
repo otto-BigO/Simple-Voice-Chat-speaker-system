@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "remote_speaker",
+  "pattern": [
+    " N ",
+    " I ",
+    "RRR"
+  ],
+  "key": {
+    "N": "minecraft:note_block",
+    "I": "minecraft:iron_ingot",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "minecraft:player_head",
+    "count": 1,
+    "components": {
+      "minecraft:profile": {
+        "name": "RemoteMic",
+        "id": [-1512642366, -1623503238, -1944232149, -1701966771],
+        "properties": [
+          {
+            "name": "textures",
+            "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ3OWRmODliNzg1MjY3YzI2ZGIxMzBmZjk2NjBhZmNkYTUwODcwMjdmOWQyMjJmYjFlMTg2YTliZjhlYjM3ZCJ9fX0="
+          }
+        ]
+      },
+      "minecraft:custom_name": "Microphone"
+    }
+  }
+}
