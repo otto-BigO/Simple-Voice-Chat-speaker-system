@@ -20,6 +20,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundOpenSignEditorPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.permissions.Permission;
@@ -35,8 +36,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Queue;
 
@@ -46,6 +49,9 @@ public class RemoteSpeakerMod implements ModInitializer {
 
     /** Pending head placements to inspect on the next tick (after the block lands). */
     private static final Queue<PendingPlace> pendingPlaces = new ConcurrentLinkedQueue<>();
+
+    /** Player UUID → speaker UUID awaiting a sign-typed rename. */
+    private static final Map<UUID, UUID> activeRenames = new ConcurrentHashMap<>();
 
     private record PendingPlace(ServerLevel level, BlockPos clicked, BlockPos relative) {}
 
@@ -98,6 +104,15 @@ public class RemoteSpeakerMod implements ModInitializer {
         BlockEntity clickedBe = sl.getBlockEntity(clicked);
         SpeakerRole clickedRole = SpeakerSkins.roleOf(clickedState, clickedBe);
 
+        // Sneak + click on a registered unit → open sign-based rename UI.
+        if (sp.isShiftKeyDown() && clickedRole != null) {
+            Optional<SpeakerSavedData.SpeakerRecord> rec = SpeakerSavedData.get(sl).get(clicked);
+            if (rec.isPresent()) {
+                openRenameSign(sp, sl, clicked, rec.get());
+                return InteractionResult.SUCCESS_SERVER;
+            }
+        }
+
         // Tap on a mic = open menu OR finish recording.
         if (clickedRole == SpeakerRole.MIC) {
             Optional<SpeakerSavedData.SpeakerRecord> rec = SpeakerSavedData.get(sl).get(clicked);
@@ -125,6 +140,45 @@ public class RemoteSpeakerMod implements ModInitializer {
             pendingPlaces.add(new PendingPlace(sl, clicked, relative));
         }
         return InteractionResult.PASS;
+    }
+
+    // -------------------------------------------------------------------------
+    // Sign-based rename UI
+    // -------------------------------------------------------------------------
+
+    /**
+     * Sends the client an OpenSignEditor packet for a phantom sign at the
+     * speaker's position. No actual block is placed — {@link com.example.remotespeaker.mixin.SignUpdateMixin}
+     * intercepts the reply packet and routes the typed lines to
+     * {@link #tryHandleRenamePacket}.
+     */
+    private static void openRenameSign(ServerPlayer sp, ServerLevel sl, BlockPos speakerPos,
+                                       SpeakerSavedData.SpeakerRecord rec) {
+        activeRenames.put(sp.getUUID(), rec.uuid());
+        sp.connection.send(new ClientboundOpenSignEditorPacket(speakerPos, true));
+    }
+
+    /**
+     * Called from the sign-update mixin. Returns true if the packet was consumed
+     * (player had an active rename), in which case vanilla handling is cancelled.
+     */
+    public static boolean tryHandleRenamePacket(ServerPlayer player, String[] lines) {
+        UUID speakerUUID = activeRenames.remove(player.getUUID());
+        if (speakerUUID == null) return false;
+        StringBuilder out = new StringBuilder();
+        for (String line : lines) {
+            if (line == null) continue;
+            String trimmed = line.trim();
+            if (trimmed.isEmpty()) continue;
+            if (out.length() > 0) out.append(' ');
+            out.append(trimmed);
+        }
+        String label = out.toString();
+        SpeakerManager.INSTANCE.updateLabel(speakerUUID, label);
+        player.sendOverlayMessage(label.isEmpty()
+            ? Component.literal("Label cleared.")
+            : Component.literal("Label set: " + label));
+        return true;
     }
 
     private static void openSpeakerMenu(ServerPlayer sp, BlockPos sourceMicPos) {
@@ -195,8 +249,11 @@ public class RemoteSpeakerMod implements ModInitializer {
     // -------------------------------------------------------------------------
 
     private static void registerDisconnectListener() {
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-            RecordingManager.INSTANCE.cancelRecording(handler.player.getUUID()));
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            UUID uuid = handler.player.getUUID();
+            RecordingManager.INSTANCE.cancelRecording(uuid);
+            activeRenames.remove(uuid);
+        });
     }
 
     // -------------------------------------------------------------------------

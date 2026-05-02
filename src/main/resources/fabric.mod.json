@@ -12,6 +12,9 @@
     "main": ["com.example.remotespeaker.RemoteSpeakerMod"],
     "voicechat": ["com.example.remotespeaker.RemoteSpeakerPlugin"]
   },
+  "mixins": [
+    "remote_speaker.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.19.0",
     "fabric-api": "*",

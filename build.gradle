@@ -50,3 +50,15 @@ jar {
         rename { "${it}_${project.name}" }
     }
 }
+
+build.doLast {
+    def jar = file("build/libs/${project.name}-${project.version}.jar")
+    def dest = file('/Users/otto/Desktop/Claude/Speaker mod Versions')
+    if (jar.exists()) {
+        copy {
+            from jar
+            into dest
+        }
+        println "Copied ${jar.name} → ${dest}"
+    }
+}
