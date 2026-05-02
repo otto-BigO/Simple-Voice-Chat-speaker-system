@@ -12,12 +12,8 @@ There's a Modrinth page with screenshots, downloads, and the full feature list i
 ./gradlew build
 ```
 
-The jar lands in `build/libs/`. Drop it into the server's `mods/` folder.
+The jar lands in `build/libs/`. Drop it into the servers `mods/` folder.
 
 ## Bug reports
 
 Open an issue on this repo. There's a template that asks for the stuff I usually need to debug.
-
-## License
-
-MIT.
