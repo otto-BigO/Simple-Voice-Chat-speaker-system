@@ -1,3 +1,0 @@
-# auth test
-# auth test
-# auth test
