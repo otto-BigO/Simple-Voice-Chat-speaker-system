@@ -23,7 +23,7 @@ import java.util.UUID;
  *
  * Texture sources (minecraft-heads.com):
  *   MIC      — http://textures.minecraft.net/texture/4d79df89b785267c26db130ff9660afcda5087027f9d222fb1e186a9bf8eb37d
- *   SPEAKER  — http://textures.minecraft.net/texture/b4890fd9509bd0c51aa4989c3746accd3fb36fc18d5a01f63647b00e295ca85a
+ *   SPEAKER  — http://textures.minecraft.net/texture/ff7becf1718e9a6096ee5f9cb7abeb6cfd9488c44a3116407c92ec33ad7d8521
  */
 public final class SpeakerSkins {
 
@@ -31,7 +31,7 @@ public final class SpeakerSkins {
         "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ3OWRmODliNzg1MjY3YzI2ZGIxMzBmZjk2NjBhZmNkYTUwODcwMjdmOWQyMjJmYjFlMTg2YTliZjhlYjM3ZCJ9fX0=";
 
     private static final String SPEAKER_TEXTURE_VALUE =
-        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQ4OTBmZDk1MDliZDBjNTFhYTQ5ODljMzc0NmFjY2QzZmIzNmZjMThkNWEwMWY2MzY0N2IwMGUyOTVjYTg1YSJ9fX0=";
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmY3YmVjZjE3MThlOWE2MDk2ZWU1ZjljYjdhYmViNmNmZDk0ODhjNDRhMzExNjQwN2M5MmVjMzNhZDdkODUyMSJ9fX0=";
 
     private static final UUID MIC_PROFILE_UUID     = UUID.fromString("a5d6e8c2-9f3b-4e7a-8c1d-5f2b9a8e0c4d");
     private static final UUID SPEAKER_PROFILE_UUID = UUID.fromString("b6e7f9d3-0a4c-5f8b-9d2e-6a3c0b9f1d5e");
